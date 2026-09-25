@@ -1,6 +1,7 @@
-# Snapdragon Deployment and Validation Plan
+# Optional Snapdragon Deployment Profile
 
-This document separates implemented work from hardware-dependent work.
+This document describes one optional hardware-accelerated deployment path. The
+portable local engine remains usable without Snapdragon hardware.
 
 ## Target pipeline
 
@@ -12,9 +13,9 @@ This document separates implemented work from hardware-dependent work.
 - Acceleration: QNN Execution Provider on Snapdragon NPU
 - Reference: <https://aihub.qualcomm.com/apps/whisper_windows_py>
 
-Qualcomm's published sample specifically demonstrates on-device speech-to-text
-with this runtime path. Use its current instructions rather than copying stale
-installation commands into the submission.
+Qualcomm's published sample demonstrates on-device speech-to-text with this
+runtime path. Follow its current instructions rather than copying version-bound
+installation commands into this repository.
 
 ### Learning-material generation
 
@@ -66,8 +67,9 @@ Use a fixed 5-minute clip for every run and repeat each test three times.
 Record the laptop model, processor, RAM, Windows build, model version, runtime
 version, and power mode beside every result.
 
-## Claims that require evidence
+## Release claims that require evidence
 
 Do not use “real-time,” “NPU-accelerated,” “battery efficient,” or an accuracy
-percentage in the final submission until the corresponding test is recorded.
-The current portable engine should be described as a functional reference MVP.
+percentage in project documentation or release notes until the corresponding
+test is recorded. The current portable engine should be described as a
+functional local MVP.

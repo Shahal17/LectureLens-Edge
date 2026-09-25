@@ -26,7 +26,7 @@ async function loadRuntime() {
     const response = await fetch("/api/health");
     state.runtime = await response.json();
     const runtime = state.runtime.runtime;
-    $("#runtimeLabel").textContent = runtime.qnn_available ? "Snapdragon NPU ready" : "Local reference engine";
+    $("#runtimeLabel").textContent = runtime.qnn_available ? "QNN provider detected" : "Local reference engine";
   } catch {
     $("#runtimeLabel").textContent = "Local app shell";
   }

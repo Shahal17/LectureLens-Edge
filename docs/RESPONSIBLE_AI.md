@@ -16,7 +16,8 @@
 - A glossary entry is learning support, not a complete translation.
 - Complexity signals are cues for review, not a diagnosis of comprehension.
 - Speech recognition quality will vary with accent, noise, microphone, and topic.
-- Snapdragon performance has not been measured in this development environment.
+- Hardware-accelerated performance has not been measured in this development
+  environment.
 
 ## Suggested pilot consent statement
 

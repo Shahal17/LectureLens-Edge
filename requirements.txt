@@ -1,2 +1,3 @@
-# The portable reference MVP uses only the Python standard library.
-# Snapdragon model adapters will add device-specific requirements separately.
+# The current local engine uses only the Python standard library.
+# Optional speech, language-model, and accelerator adapters will declare their
+# dependencies separately.

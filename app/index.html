@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#08111f">
-  <meta name="description" content="Private, offline lecture intelligence for low-connectivity classrooms.">
+  <meta name="description" content="A private, local-first study companion for grounded lecture revision.">
   <title>LectureLens Edge</title>
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="styles.css">
@@ -35,7 +35,7 @@
     <section class="capture-card" aria-labelledby="captureHeading">
       <div class="section-heading">
         <div><span class="step">01</span><h2 id="captureHeading">Add a lecture</h2></div>
-        <button class="text-button" id="demoButton">Load demo lecture</button>
+        <button class="text-button" id="demoButton">Load sample lecture</button>
       </div>
       <div class="meta-grid">
         <label>Lecture title<input id="titleInput" value="Introduction to Supervised Learning" maxlength="100"></label>
@@ -43,7 +43,7 @@
         <label>Learning support<select id="languageInput"><option>English + Malayalam glossary</option><option>English</option></select></label>
       </div>
       <label class="transcript-label" for="transcriptInput">Lecture transcript</label>
-      <textarea id="transcriptInput" rows="10" placeholder="Paste a lecture transcript here, or load the built-in demo. The text stays on this device."></textarea>
+      <textarea id="transcriptInput" rows="10" placeholder="Paste a lecture transcript here, or load the built-in sample. The text stays on this device."></textarea>
       <div class="capture-footer">
         <div class="privacy-note"><span>⌁</span><div><strong>Private by design</strong><small>Processed in local session memory</small></div></div>
         <div class="actions">
@@ -97,7 +97,7 @@
     </section>
   </main>
 
-  <footer><span>LectureLens Edge • Built for private learning</span><span>Reference MVP v1.0</span></footer>
+  <footer><span>LectureLens Edge • Built for private learning</span><span>Local MVP v0.1</span></footer>
   <script src="app.js" defer></script>
 </body>
 </html>

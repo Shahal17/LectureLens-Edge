@@ -1,8 +1,8 @@
 """Transparent local reference engine for transcript intelligence.
 
-This module deliberately uses deterministic NLP rather than pretending to run a
-model that is not installed. Its output contract can be retained when the
-Snapdragon Whisper and LLM adapters are connected.
+This module uses deterministic NLP so the product remains useful without a
+downloaded model. Its output contract can be retained when optional speech and
+local language-model adapters are connected.
 """
 
 from __future__ import annotations
@@ -68,7 +68,7 @@ class Sentence:
 class LectureEngine:
     """Generate evidence-linked learning assets from a transcript."""
 
-    version = "1.0.0-reference"
+    version = "0.1.0-local"
 
     def _sentences(self, transcript: str) -> list[Sentence]:
         cleaned = re.sub(r"\s+", " ", transcript).strip()
@@ -233,7 +233,7 @@ class LectureEngine:
         if len(transcript) < 80:
             raise ValueError("Please provide at least 80 characters of lecture transcript.")
         if len(transcript) > 120_000:
-            raise ValueError("Transcript is too large for this demo (maximum 120,000 characters).")
+            raise ValueError("Transcript is too large for this release (maximum 120,000 characters).")
 
         sentences = self._sentences(transcript)
         if len(sentences) < 2:

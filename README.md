@@ -1,33 +1,54 @@
 # LectureLens Edge
 
-**Private, offline lecture intelligence for low-connectivity classrooms.**
+**A private, local-first study companion for turning lecture transcripts into
+grounded revision material.**
 
-LectureLens Edge turns a lecture transcript into concise notes, key concepts,
-review flags, source-grounded answers, and a self-test quiz. The reference MVP
-runs entirely on the user's laptop with no account, cloud API, or external
-network call. The target Snapdragon build replaces the reference transcript
-input and extractive engine with Qualcomm AI Hub models accelerated on the NPU.
+[![Tests](https://github.com/Shahal17/LectureLens-Edge/actions/workflows/tests.yml/badge.svg)](https://github.com/Shahal17/LectureLens-Edge/actions/workflows/tests.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-2ed9c3.svg)](LICENSE)
+[![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-58a8ff.svg)](https://www.python.org/)
 
-> Competition status: the portable reference MVP is implemented and tested.
-> Final Whisper/QNN profiling must be completed on an eligible Snapdragon-
-> powered Windows laptop before claiming NPU performance.
+LectureLens Edge helps students revisit difficult lectures without sending the
+lecture content to a third-party AI service. The current release accepts a
+transcript, processes it locally, and produces source-linked notes, concepts,
+review flags, quiz questions, and evidence-grounded answers.
 
-## Why this can stand out
+The repository contains a working cross-platform local MVP. Optional on-device
+speech and language-model adapters are part of the product roadmap, with a
+Snapdragon NPU deployment profile documented separately.
 
-- **A specific underserved user:** students in Indian colleges with unreliable
-  connectivity, English-as-a-second-language friction, or hearing-access needs.
-- **A real reason to run at the edge:** lecture audio is sensitive, latency
-  matters, and classrooms cannot assume reliable broadband.
-- **A visible, judgeable demo:** one click produces notes, a quiz, cited answers,
-  a complexity map, a bilingual glossary, and a privacy receipt.
-- **A credible Snapdragon path:** Qualcomm publishes a Windows Whisper sample
-  using ONNX Runtime and the Snapdragon NPU, plus quantized LLMs for Snapdragon
-  X-series devices.
+## Why this project exists
 
-## 60-second quick start
+Students can lose the thread of a lecture because of fast speech, unfamiliar
+technical English, classroom noise, or unreliable internet. General meeting
+assistants often require cloud upload and produce meeting minutes rather than
+learning support.
 
-Requirements: Python 3.10 or newer. No packages are required for the reference
-MVP.
+LectureLens Edge is designed around three product principles:
+
+1. **Local by default:** lecture content stays on the student's computer.
+2. **Evidence before fluency:** every learning item should remain traceable to
+   the transcript.
+3. **Revision, not transcription alone:** the useful output is a study pack,
+   not merely a block of text.
+
+## What works today
+
+- Local browser application served from `127.0.0.1`
+- Transcript analysis with no mandatory third-party packages
+- Extractive summary with stable source sentence IDs
+- Key-concept extraction and English-Malayalam technical glossary
+- Confusion Radar for dense explanations, contrasts, and exceptions
+- Active-recall quiz generation
+- Grounded question answering with refusal for unsupported questions
+- High-contrast, large-text, reading-spacing, and speech-output controls
+- Markdown and JSON export
+- Privacy receipt showing zero external model calls in the local engine
+- Automated unit tests and a repeatable reference-engine benchmark
+
+## Quick start
+
+Requirements: Python 3.10 or newer. The local MVP uses only the Python standard
+library.
 
 ### Windows
 
@@ -35,99 +56,158 @@ MVP.
 py run.py
 ```
 
-Or double-click `run_windows.bat`.
+You can also double-click `run_windows.bat`.
 
-### macOS / Linux
+### macOS or Linux
 
 ```bash
 python3 run.py
 ```
 
-Then open <http://127.0.0.1:8765>. Select **Load demo lecture** and then
-**Analyse privately**.
+Open <http://127.0.0.1:8765> if the browser does not open automatically.
 
-## Demo flow
+## Use the app
 
-1. Load the sample machine-learning lecture.
-2. Analyse it and show the privacy receipt (`0 cloud calls`).
-3. Open **Smart notes** and **Quiz**.
-4. Ask: `Why should we keep test data separate?`
-5. Turn on high contrast or reading mode in **Accessibility**.
-6. Export the notes as Markdown.
+1. Enter a lecture title and subject.
+2. Paste a transcript or select **Load sample lecture**.
+3. Select **Analyse privately**.
+4. Review the notes, key concepts, Confusion Radar, glossary, and quiz.
+5. Ask a question about the lecture and inspect its source marker.
+6. Export the revision pack when you want to keep it.
 
-## What is genuinely working now
+No account or network connection is required for this workflow.
 
-| Capability | Reference MVP | Snapdragon target |
+## Product status
+
+| Capability | Current local MVP | Planned on-device release |
 |---|---|---|
-| Transcript input | Paste/sample transcript | Whisper-Base on NPU |
-| Notes and concepts | Local extractive engine | Quantized Llama 3.2 3B |
-| Grounded Q&A | Local sentence retrieval with source | LLM response constrained to transcript |
-| Quiz | Local concept/cloze generator | LLM generation + grounding check |
-| Malayalam support | Local technical glossary | Multilingual model/translation adapter |
-| Privacy receipt | Working | Working + NPU telemetry |
-| Offline app shell | Working | Working |
+| Input | Pasted or sample transcript | Microphone and audio-file transcription |
+| Notes | Deterministic extractive engine | Local language model with grounding check |
+| Question answering | Sentence retrieval with source ID | Local generated answer constrained to evidence |
+| Quiz | Concept-based cloze questions | Local model generation with answer verification |
+| Language support | Curated English-Malayalam glossary | Multilingual adapter |
+| Storage | In-memory session and user-initiated export | Optional encrypted local session library |
+| Hardware acceleration | Not required | Optional NPU/GPU runtime adapters |
 
-The reference engine is intentionally transparent. It demonstrates the complete
-product flow without pretending that a CPU heuristic is an NPU model.
+The interface reports which engine is active. The project does not label the
+portable engine as NPU inference or publish unmeasured hardware claims.
 
-## Project structure
+## Architecture
+
+```mermaid
+flowchart LR
+    A[Transcript input] --> B[Source segmentation]
+    B --> C[Local learning engine]
+    C --> D[Grounded revision pack]
+```
+
+The HTTP server, analysis engine, and browser interface are deliberately
+separated so a speech recognizer or local language model can replace one layer
+without rewriting the whole product.
 
 ```text
 LectureLens-Edge/
-├── app/                    # Offline, accessible web interface
-├── engine/                 # Local analysis API and runtime detection
-├── tests/                  # Standard-library unit tests
-├── config/                 # Target model registry
-├── docs/                   # Proposal, pitch, demo, architecture, judging map
-├── run.py                  # Cross-platform launcher
-├── run_windows.bat         # Windows one-click launcher
+├── app/                         # Offline-capable browser interface
+├── engine/                      # Local API, runtime detection, analysis engine
+├── tests/                       # Standard-library unit tests
+├── tools/                       # Repeatable local benchmark
+├── config/                      # Optional model-adapter registry
+├── docs/                        # Product, API, architecture, safety, roadmap
+│   └── competition/             # Archived challenge-specific material
+├── .github/                     # CI and contribution templates
+├── run.py                       # Cross-platform launcher
+├── run_windows.bat              # Windows launcher
 └── LICENSE
 ```
 
-## Test
+See [Architecture](docs/ARCHITECTURE.md) for the component boundaries and
+grounding strategy.
+
+## API
+
+The local server exposes three endpoints:
+
+- `GET /api/health`
+- `POST /api/analyze`
+- `POST /api/ask`
+
+Request and response examples are in [API documentation](docs/API.md).
+
+## Tests and benchmark
 
 ```bash
 python3 -m unittest discover -s tests -v
 python3 tools/benchmark.py --runs 50 --json
 ```
 
-Competition materials are in `docs/`, including paste-ready form answers, a
-two-minute pitch, a 90-second demo script, a five-student validation sheet, and
-an editable 16:9 SVG submission cover.
+The benchmark measures only the deterministic reference engine. It is not a
+speech-recognition, LLM, or NPU benchmark.
 
-## Snapdragon implementation path
+## Privacy and responsible use
 
-The production design uses:
+- The default server binds to `127.0.0.1`, not the local network.
+- The current workflow uses no analytics, remote fonts, CDN scripts, or cloud
+  model API.
+- Nothing is saved unless the student exports it.
+- Students should obtain permission before recording a lecture.
+- Notes are study support, not an authoritative replacement for the lecturer or
+  official course material.
 
-1. **Whisper-Base** through Qualcomm's Whisper Windows reference application
-   and the ONNX Runtime QNN execution provider for multilingual speech-to-text.
-2. **Llama 3.2 3B Instruct**, quantized for on-device deployment, for structured
-   notes, quizzes, and answer generation.
-3. A local evidence layer that stores source sentence IDs and refuses to answer
-   when the transcript does not support a response.
+Read [Responsible AI](docs/RESPONSIBLE_AI.md) and [Security Policy](SECURITY.md)
+before deploying the project beyond personal use.
 
-Official references:
+## Optional Snapdragon deployment
 
-- [Qualcomm AI Hub – Whisper Windows](https://aihub.qualcomm.com/apps/whisper_windows_py)
-- [Qualcomm AI Hub – Whisper-Base](https://aihub.qualcomm.com/models/whisper_base)
-- [Qualcomm AI Hub – Llama 3.2 3B Instruct](https://aihub.qualcomm.com/compute/models/llama_v3_2_3b_instruct)
-- [Qualcomm AI Hub model catalogue](https://aihub.qualcomm.com/models)
+One planned deployment profile uses Qualcomm AI Hub Whisper-Base through ONNX
+Runtime and the QNN execution provider, followed by a quantized local language
+model. This is an optional acceleration path, not a requirement for using the
+current product.
 
-See [`docs/SNAPDRAGON_DEPLOYMENT.md`](docs/SNAPDRAGON_DEPLOYMENT.md) for the
-integration and validation checklist.
+See [Snapdragon deployment plan](docs/SNAPDRAGON_DEPLOYMENT.md) for the adapter
+contract and the measurements required before performance claims are made.
 
-## Submission honesty checklist
+## Roadmap
 
-- Do not claim measured NPU speed, battery savings, or Malayalam accuracy until
-  those numbers are collected on the target laptop.
-- Do not upload a team-owned project as a solely owned individual entry.
-- Replace sample metrics with results from at least five real lecture clips.
-- Review the competition's official rules immediately before submission.
+The next product milestones are:
+
+1. Add an adapter interface for speech recognition and local language models.
+2. Connect real local audio transcription.
+3. Add persistent sessions with explicit save and delete controls.
+4. Test with students using varied subjects, accents, and classroom conditions.
+5. Package the application for a simpler desktop installation.
+
+The detailed plan and acceptance criteria are in [Roadmap](docs/ROADMAP.md).
+
+## Documentation
+
+- [API reference](docs/API.md)
+- [Architecture and design decisions](docs/ARCHITECTURE.md)
+- [Product roadmap](docs/ROADMAP.md)
+- [Responsible AI notes](docs/RESPONSIBLE_AI.md)
+- [User pilot guide](docs/USER_PILOT.md)
+- [Snapdragon deployment plan](docs/SNAPDRAGON_DEPLOYMENT.md)
+- [Archived competition material](docs/competition/README.md)
+
+## Contributing
+
+Bug reports, feature proposals, accessibility feedback, documentation fixes, and
+small pull requests are welcome. Start with [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## Project history
+
+LectureLens Edge began as an on-device AI challenge project. It is now maintained
+as an independent learning-tool project. The original pitch and submission files
+are preserved in `docs/competition/` for project history, but they do not define
+the ongoing product roadmap.
 
 ## Author
 
-Mohammed Shahal — B.Tech CSE (AI & ML), MEA Engineering College, Kerala.
+Mohammed Shahal  
+B.Tech Computer Science and Engineering, Artificial Intelligence and Machine
+Learning  
+MEA Engineering College, Kerala, India
 
 ## License
 
-MIT. Model weights and third-party runtimes retain their own licences.
+The source code is available under the [MIT License](LICENSE). Model weights and
+third-party runtimes retain their own licences.

@@ -37,7 +37,7 @@ def detect_runtime() -> RuntimeProfile:
     if forced_provider:
         provider = forced_provider
     elif qnn_available:
-        provider = "QNNExecutionProvider"
+        provider = "QNNExecutionProvider available; adapter not connected"
     else:
         provider = "Portable reference engine"
 

@@ -1,7 +1,7 @@
 {
   "name": "LectureLens Edge",
   "short_name": "LectureLens",
-  "description": "Private, offline lecture intelligence for low-connectivity classrooms.",
+  "description": "A private, local-first study companion for grounded lecture revision.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#08111f",

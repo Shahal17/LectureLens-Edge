@@ -21,7 +21,7 @@ ENGINE = LectureEngine()
 
 
 class LectureLensHandler(SimpleHTTPRequestHandler):
-    server_version = "LectureLensEdge/1.0"
+    server_version = "LectureLensEdge/0.1"
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, directory=str(APP_ROOT), **kwargs)

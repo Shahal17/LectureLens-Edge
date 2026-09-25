@@ -24,6 +24,18 @@ class LectureEngineTests(unittest.TestCase):
         self.assertTrue(all(1 <= item["source"] <= len(result["sources"]) for item in result["summary"]))
         self.assertEqual(result["metrics"]["external_calls"], 0)
 
+    def test_analysis_identifies_the_local_engine(self):
+        result = self.engine.analyze(TRANSCRIPT)
+        self.assertEqual(result["engine"]["version"], "0.1.0-local")
+        self.assertEqual(result["engine"]["mode"], "portable-reference")
+        self.assertEqual(result["engine"]["data_uploaded"], "0 bytes")
+
+    def test_glossary_uses_terms_present_in_the_transcript(self):
+        result = self.engine.analyze(TRANSCRIPT)
+        terms = {item["term"].lower() for item in result["glossary"]}
+        self.assertIn("classification", terms)
+        self.assertIn("regression", terms)
+
     def test_answer_is_linked_to_source(self):
         result = self.engine.answer(TRANSCRIPT, "Why should testing data remain separate?")
         self.assertTrue(result["supported"])
@@ -38,6 +50,10 @@ class LectureEngineTests(unittest.TestCase):
     def test_rejects_short_input(self):
         with self.assertRaises(ValueError):
             self.engine.analyze("Too short.")
+
+    def test_rejects_oversized_input(self):
+        with self.assertRaises(ValueError):
+            self.engine.analyze("word " * 25_000)
 
 
 if __name__ == "__main__":
