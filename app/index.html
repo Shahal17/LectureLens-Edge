@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#08111f">
+  <meta name="description" content="Private, offline lecture intelligence for low-connectivity classrooms.">
+  <title>LectureLens Edge</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#workspace">Skip to workspace</a>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="LectureLens Edge home">
+      <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+      <span><strong>LectureLens</strong><small>EDGE</small></span>
+    </a>
+    <div class="runtime-pill" id="runtimePill" title="Current inference runtime">
+      <span class="pulse"></span><span id="runtimeLabel">Checking local engine…</span>
+    </div>
+    <button class="icon-button" id="themeButton" aria-label="Toggle high contrast">◐</button>
+  </header>
+
+  <main id="workspace">
+    <section class="hero">
+      <div class="eyebrow">ON-DEVICE LEARNING COPILOT</div>
+      <h1>Hear less noise.<br><span>Keep more knowledge.</span></h1>
+      <p>Turn a lecture into grounded notes, review moments, and a personal quiz—without sending classroom audio to the cloud.</p>
+      <div class="trust-row" aria-label="Product benefits">
+        <span>● Zero cloud calls</span><span>● Source-linked answers</span><span>● Low-connectivity ready</span>
+      </div>
+    </section>
+
+    <section class="capture-card" aria-labelledby="captureHeading">
+      <div class="section-heading">
+        <div><span class="step">01</span><h2 id="captureHeading">Add a lecture</h2></div>
+        <button class="text-button" id="demoButton">Load demo lecture</button>
+      </div>
+      <div class="meta-grid">
+        <label>Lecture title<input id="titleInput" value="Introduction to Supervised Learning" maxlength="100"></label>
+        <label>Subject<input id="subjectInput" value="Machine Learning" maxlength="60"></label>
+        <label>Learning support<select id="languageInput"><option>English + Malayalam glossary</option><option>English</option></select></label>
+      </div>
+      <label class="transcript-label" for="transcriptInput">Lecture transcript</label>
+      <textarea id="transcriptInput" rows="10" placeholder="Paste a lecture transcript here, or load the built-in demo. The text stays on this device."></textarea>
+      <div class="capture-footer">
+        <div class="privacy-note"><span>⌁</span><div><strong>Private by design</strong><small>Processed in local session memory</small></div></div>
+        <div class="actions">
+          <span id="wordCounter">0 words</span>
+          <button class="primary-button" id="analyseButton"><span>Analyse privately</span><b aria-hidden="true">→</b></button>
+        </div>
+      </div>
+      <p class="error-message" id="errorMessage" role="alert"></p>
+    </section>
+
+    <section class="results-shell hidden" id="resultsSection" aria-live="polite">
+      <div class="results-header">
+        <div><span class="step">02</span><h2>Your learning pack</h2><p id="resultSubtitle"></p></div>
+        <div class="export-actions"><button id="exportMarkdown">Export notes</button><button id="exportJson">Session data</button></div>
+      </div>
+
+      <div class="metrics" id="metrics"></div>
+
+      <nav class="tabs" aria-label="Learning pack sections">
+        <button class="active" data-tab="overview">Overview</button>
+        <button data-tab="notes">Smart notes</button>
+        <button data-tab="quiz">Quiz</button>
+        <button data-tab="accessibility">Accessibility</button>
+        <button data-tab="evidence">Evidence</button>
+      </nav>
+
+      <div class="tab-panel active" id="overviewPanel">
+        <div class="dashboard-grid">
+          <article class="panel span-two"><div class="panel-kicker">EXECUTIVE SUMMARY</div><div id="summaryList" class="summary-list"></div></article>
+          <article class="panel"><div class="panel-kicker">KEY CONCEPTS</div><div id="conceptList" class="chip-list"></div></article>
+          <article class="panel span-two"><div class="panel-kicker">CONFUSION RADAR</div><p class="panel-copy">Dense explanations and contrasts worth replaying.</p><div id="reviewList" class="review-list"></div></article>
+          <article class="panel ask-panel"><div class="panel-kicker">ASK THIS LECTURE</div><label class="sr-only" for="questionInput">Question</label><textarea id="questionInput" rows="3" placeholder="Why is test data kept separate?"></textarea><button id="askButton">Find grounded answer</button><div id="answerBox" class="answer-box"></div></article>
+        </div>
+      </div>
+
+      <div class="tab-panel" id="notesPanel"><article class="panel full"><div class="panel-kicker">SOURCE-LINKED NOTES</div><div id="notesList" class="notes-list"></div></article></div>
+      <div class="tab-panel" id="quizPanel"><article class="panel full"><div class="quiz-heading"><div><div class="panel-kicker">ACTIVE RECALL</div><h3>Check what stayed with you</h3></div><span id="quizScore">0 / 0</span></div><div id="quizList"></div></article></div>
+      <div class="tab-panel" id="accessibilityPanel">
+        <div class="dashboard-grid">
+          <article class="panel"><div class="panel-kicker">READING CONTROLS</div><div class="control-stack"><button id="fontUp">A+ Larger text</button><button id="readingMode">↔ Reading mode</button><button id="speakSummary">▶ Read summary aloud</button></div></article>
+          <article class="panel span-two"><div class="panel-kicker">MALAYALAM LEARNING GLOSSARY</div><p class="panel-copy">Local explanations for important technical terms; no translation request leaves the device.</p><div id="glossaryList" class="glossary-list"></div></article>
+        </div>
+      </div>
+      <div class="tab-panel" id="evidencePanel">
+        <div class="dashboard-grid">
+          <article class="panel privacy-receipt"><div class="panel-kicker">PRIVACY RECEIPT</div><div class="receipt-number">0<span>bytes uploaded</span></div><ul><li><b>External API calls</b><span>0</span></li><li><b>Account required</b><span>No</span></li><li><b>Retention</b><span>Session only</span></li></ul></article>
+          <article class="panel span-two"><div class="panel-kicker">ANSWER EVIDENCE</div><p class="panel-copy">Every generated learning item links back to the exact sentence that supports it.</p><div id="sourceList" class="source-list"></div></article>
+          <article class="panel full"><div class="panel-kicker">RUNTIME TRANSPARENCY</div><div id="runtimeDetails" class="runtime-details"></div></article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer><span>LectureLens Edge • Built for private learning</span><span>Reference MVP v1.0</span></footer>
+  <script src="app.js" defer></script>
+</body>
+</html>

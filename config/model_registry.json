@@ -1,0 +1,21 @@
+{
+  "target_device_family": ["Snapdragon X Elite", "Snapdragon X Plus", "Snapdragon X2 Elite"],
+  "speech_to_text": {
+    "model": "Whisper-Base",
+    "runtime": "ONNX Runtime + QNN Execution Provider",
+    "official_sample": "https://aihub.qualcomm.com/apps/whisper_windows_py",
+    "model_page": "https://aihub.qualcomm.com/models/whisper_base",
+    "status": "integration_requires_target_hardware"
+  },
+  "notes_and_quiz": {
+    "model": "Llama-v3.2-3B-Instruct",
+    "quantization": "w4a16 with selected w8a16 layers",
+    "model_page": "https://aihub.qualcomm.com/compute/models/llama_v3_2_3b_instruct",
+    "status": "integration_requires_target_hardware_and_model_licence_acceptance"
+  },
+  "fallback": {
+    "engine": "LectureLens Extractive Edge Engine",
+    "external_calls": 0,
+    "status": "implemented"
+  }
+}

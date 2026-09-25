@@ -1,0 +1,2 @@
+# The portable reference MVP uses only the Python standard library.
+# Snapdragon model adapters will add device-specific requirements separately.
